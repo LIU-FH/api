@@ -13,7 +13,7 @@ class ArticleRequest extends BaseRequest
                 return [
                     'title' => ['required', 'string', 'max:100'],
                     'pic' => ['required', 'string'],
-                    'tags' => ['required', 'string'],
+                    'tags' => ['required'],
                     'url' => ['required', 'string'],
                     'desc' => ['required', 'string'],
                     'status' => ['required', 'int'],
@@ -23,7 +23,7 @@ class ArticleRequest extends BaseRequest
                 return [
                     'title' => ['string', 'max:100'],
                     'pic' => ['string'],
-                    'tags' => ['string'],
+                    'tags' => [],
                     'url' => ['string'],
                     'desc' => ['string'],
                     'status' => ['int'],

@@ -17,9 +17,14 @@ class Articles extends BaseModel
         'pic',
         'tags',
         'url',
-        'description',
+        'desc',
         'status',
     ];
+
+    public function setTagsAttribute($value)
+    {
+        return is_array($value) ? implode(',', $value) : $value;
+    }
 
     public function getTagsAttribute($value)
     {

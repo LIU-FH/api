@@ -3,6 +3,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\File\GitPushQueue;
 use App\Models\Articles;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -10,9 +11,12 @@ use Illuminate\Support\Facades\Storage;
 
 class FileController extends Controller
 {
-    public function index($type)
+    public function index()
     {
-        return response(Cache::get("assets-" . $type, []), 200);
+        return response([
+            'md' => Cache::get("assets-md", []),
+            'file' => Cache::get("assets-file", []),
+        ], 200);
     }
 
     public function store(Request $request)
@@ -33,6 +37,24 @@ class FileController extends Controller
             }
         }
         return response(null, 200);
+    }
+
+    public function push()
+    {
+        $activeKey = "git-push-active";
+        $active = Cache::get($activeKey);
+        if ($active) {
+            Cache::put($activeKey, $active + 1, 300);
+        } else {
+            Cache::put($activeKey, 1, 300);
+            GitPushQueue::dispatch();
+        }
+        return response(null, 200);
+    }
+
+    public function pushLast()
+    {
+        return response(Cache::get('git-push-last'), 200);
     }
 
     public function destroy($id)

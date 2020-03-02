@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Storage;
 class GitPushQueue extends BaseQueue
 {
 
-    protected $path = "/mnt/hgfs/E/liufh/api/storage/app/sh/git_push.sh";
+    protected $path = "/home/wwwroot/api/storage/app/sh/git_push.sh";
 
     public function __construct()
     {

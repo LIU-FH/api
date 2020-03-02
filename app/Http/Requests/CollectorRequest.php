@@ -4,7 +4,7 @@
 namespace App\Http\Requests;
 
 
-class ArticleRequest extends BaseRequest
+class CollectorRequest extends BaseRequest
 {
     public function rules()
     {
@@ -16,6 +16,9 @@ class ArticleRequest extends BaseRequest
                     'tags' => ['required'],
                     'url' => ['required', 'string'],
                     'desc' => ['required', 'string'],
+                    'github' => ['string'],
+                    'website' => ['string'],
+                    'example' => ['string'],
                     'status' => ['required', 'int'],
                 ];
                 break;
@@ -26,6 +29,9 @@ class ArticleRequest extends BaseRequest
                     'tags' => [],
                     'url' => ['string'],
                     'desc' => ['string'],
+                    'github' => ['string'],
+                    'website' => ['string'],
+                    'example' => ['string'],
                     'status' => ['int'],
                 ];
                 break;
@@ -40,6 +46,9 @@ class ArticleRequest extends BaseRequest
             'tags' => '标签',
             'url' => 'MD地址',
             'desc' => '描述',
+            'github' => 'GitHub',
+            'website' => '官网',
+            'example' => '用例',
             'status' => '状态',
         ];
     }

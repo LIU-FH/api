@@ -6,11 +6,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Articles extends BaseModel
+class Collectors extends BaseModel
 {
     use SoftDeletes;
 
-    protected $table = 'articles';
+    protected $table = 'collectors';
 
     protected $fillable = [
         'title',
@@ -18,6 +18,9 @@ class Articles extends BaseModel
         'tags',
         'url',
         'desc',
+        'github',
+        'website',
+        'example',
         'status',
     ];
 

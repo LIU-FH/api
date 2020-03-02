@@ -3,8 +3,6 @@
 
 namespace App\Http\Controllers;
 
-
-use App\Http\Controllers\Controller;
 use App\Http\Queries\ArticleQuery;
 use App\Http\Requests\ArticleRequest;
 use App\Http\Resources\ArticleResource;
@@ -16,12 +14,6 @@ class ArticleController extends Controller
     {
         $list = $query->paginate();
         return ArticleResource::collection($list);
-    }
-
-    public function show($id, ArticleQuery $query)
-    {
-        $note = $query->findOrFail($id);
-        return new ArticleResource($note);
     }
 
     public function store(ArticleRequest $request, Articles $articles)

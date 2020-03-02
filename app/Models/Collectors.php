@@ -16,7 +16,6 @@ class Collectors extends BaseModel
         'title',
         'pic',
         'tags',
-        'url',
         'desc',
         'github',
         'website',

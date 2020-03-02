@@ -14,11 +14,10 @@ class CollectorRequest extends BaseRequest
                     'title' => ['required', 'string', 'max:100'],
                     'pic' => ['required', 'string'],
                     'tags' => ['required'],
-                    'url' => ['required', 'string'],
                     'desc' => ['required', 'string'],
-                    'github' => ['string'],
-                    'website' => ['string'],
-                    'example' => ['string'],
+                    'github' => [],
+                    'website' => [],
+                    'example' => [],
                     'status' => ['required', 'int'],
                 ];
                 break;
@@ -27,11 +26,10 @@ class CollectorRequest extends BaseRequest
                     'title' => ['string', 'max:100'],
                     'pic' => ['string'],
                     'tags' => [],
-                    'url' => ['string'],
-                    'desc' => ['string'],
-                    'github' => ['string'],
-                    'website' => ['string'],
-                    'example' => ['string'],
+                    'desc' => [],
+                    'github' => [],
+                    'website' => [],
+                    'example' => [],
                     'status' => ['int'],
                 ];
                 break;

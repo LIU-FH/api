@@ -13,7 +13,7 @@ class ArticleQuery extends QueryBuilder
         parent::__construct(Articles::query());
 
         $this->allowedFields('id', 'type', 'title', 'tags', 'pic', 'desc', 'content', 'created_at', 'updated_at')
-            ->allowedFilters(['title', 'tags', "desc"])
+            ->allowedFilters(['title', 'tags', "desc",'type'])
             ->allowedSorts(['created_at', 'updated_at']);
     }
 }

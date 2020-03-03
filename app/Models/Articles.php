@@ -13,13 +13,24 @@ class Articles extends BaseModel
     protected $table = 'articles';
 
     protected $fillable = [
+        'type',
         'title',
         'pic',
         'tags',
-        'url',
+        'content',
         'desc',
         'status',
     ];
+
+    public function setContentAttribute($value)
+    {
+        return json_encode($value);
+    }
+
+    public function getContentAttribute($value)
+    {
+        return json_decode($value);
+    }
 
     public function setTagsAttribute($value)
     {

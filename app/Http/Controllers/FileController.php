@@ -3,39 +3,36 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Queries\FileQuery;
+use App\Http\Resources\FileResource;
 use App\Jobs\File\GitPushQueue;
-use App\Models\Articles;
+use App\Models\Files;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Storage;
 
 class FileController extends Controller
 {
-    public function index()
+    public function index(FileQuery $query)
     {
-        return response([
-            'md' => Cache::get("assets-md", []),
-            'file' => Cache::get("assets-file", []),
-        ], 200);
+        $list = $query->paginate();
+        return FileResource::collection($list);
     }
 
     public function store(Request $request)
     {
+        $items = [];
         foreach ($request->files->keys() as $key) {
             $file = $request->file($key);
-            switch ($key) {
-                case "md":
-                    $path = 'public/assets/md';
-                    $file->storeAs($path, $file->getClientOriginalName());
-                    Cache::forever("assets-md", Storage::allFiles($path));
-                    break;
-                default:
-                    $path = 'public/assets/file/' . date("y/m", time());
-                    $file->store($path);
-                    Cache::forever("assets-file", Storage::allFiles($path));
-                    break;
-            }
+            $path = 'assets/file/' . date("y/m/d", time());
+            $items[] = [
+                "path" => $path,
+                "name" => $file->getClientOriginalName(),
+                "size" => $file->getSize(),
+                "type" => $file->getType()
+            ];
+            $file->store("public/" . $path);
         }
+        Files::create($items);
         return response(null, 200);
     }
 
@@ -59,6 +56,8 @@ class FileController extends Controller
 
     public function destroy($id)
     {
+        $file = Files::find($id);
+        $file->delete();
         return response(null, 204);
     }
 }

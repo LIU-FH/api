@@ -4,7 +4,7 @@
 namespace App\Http\Resources;
 
 
-class CollectorResource extends BaseResource
+class FileResource extends BaseResource
 {
     public function toArray($request)
     {

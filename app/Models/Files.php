@@ -13,9 +13,15 @@ class Files extends BaseModel
     protected $table = 'files';
 
     protected $fillable = [
+        'user_id',
         'name',
         'type',
         'size',
         'path',
     ];
+
+    public function getPathAttribute($value)
+    {
+        return str_replace('assets', 'https://raw.githubusercontent.com/LIU-FH/assets/master', $value);
+    }
 }

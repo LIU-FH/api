@@ -13,6 +13,7 @@ class Articles extends BaseModel
     protected $table = 'articles';
 
     protected $fillable = [
+        'user_id',
         'type',
         'title',
         'pic',

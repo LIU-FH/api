@@ -14,25 +14,24 @@ class FileController extends Controller
 {
     public function index(FileQuery $query)
     {
-        $list = $query->paginate();
+        $list = $query->paginate(100);
         return FileResource::collection($list);
     }
 
     public function store(Request $request)
     {
-        $items = [];
         foreach ($request->files->keys() as $key) {
             $file = $request->file($key);
-            $path = 'assets/file/' . date("y/m/d", time());
-            $items[] = [
-                "path" => $path,
-                "name" => $file->getClientOriginalName(),
+            $fileInfo = pathinfo($file->getClientOriginalName());
+            $url = $file->storeAs("public/assets/" . date("ym/d", time()), md5($fileInfo['filename']) . '.' . $fileInfo['extension']);
+            Files::create([
+                "user_id" => 1,
+                "path" => str_replace('public/', '', $url),
+                "name" => $fileInfo['filename'],
                 "size" => $file->getSize(),
-                "type" => $file->getType()
-            ];
-            $file->store("public/" . $path);
+                "type" => $fileInfo['extension'],
+            ]);
         }
-        Files::create($items);
         return response(null, 200);
     }
 

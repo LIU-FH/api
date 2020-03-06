@@ -9,6 +9,7 @@ use App\Jobs\File\GitPushQueue;
 use App\Models\Files;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 
 class FileController extends Controller
 {
@@ -20,17 +21,27 @@ class FileController extends Controller
 
     public function store(Request $request)
     {
+
         foreach ($request->files->keys() as $key) {
             $file = $request->file($key);
             $fileInfo = pathinfo($file->getClientOriginalName());
-            $url = $file->storeAs("public/assets/" . date("ym/d", time()), md5($fileInfo['filename']) . '.' . $fileInfo['extension']);
-            Files::create([
-                "user_id" => 1,
-                "path" => str_replace('public/', '', $url),
-                "name" => $fileInfo['filename'],
-                "size" => $file->getSize(),
-                "type" => $fileInfo['extension'],
-            ]);
+            if ($request->get('id')) {
+                $obj = Files::find($request->get('id'));
+                $path = explode('/' . $obj->id, $obj->getOriginal('path'))[0];
+            } else {
+                $obj = Files::create([
+                    "user_id" => 1,
+                    "path" => '',
+                    "name" => $fileInfo['filename'],
+                    "size" => $file->getSize(),
+                    "type" => $fileInfo['extension'],
+                ]);
+                $path = "assets/" . date("ym/d", time());
+            }
+            $fileName = $obj->id . '.' . $fileInfo['extension'];
+            $file->storeAs("public/" . $path, $fileName);
+            $obj->path = $path . '/' . $fileName;
+            $obj->save();
         }
         return response(null, 200);
     }

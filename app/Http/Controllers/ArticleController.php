@@ -18,7 +18,9 @@ class ArticleController extends Controller
 
     public function store(ArticleRequest $request, Articles $articles)
     {
-        $articles->fill($request->all());
+        $all = $request->all();
+        $all['content'] = json_encode($all['content']);
+        $articles->fill($all);
         $articles->user_id = 1;
         $articles->save();
         return new ArticleResource($articles);
@@ -26,8 +28,10 @@ class ArticleController extends Controller
 
     public function update($id, ArticleRequest $request)
     {
+        $all = $request->all();
+        $all['content'] = json_encode($all['content']);
         $articles = Articles::find($id);
-        $articles->update($request->all());
+        $articles->update($all);
         return new ArticleResource($articles);
     }
 

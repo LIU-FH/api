@@ -23,11 +23,6 @@ class Articles extends BaseModel
         'status',
     ];
 
-    public function setContentAttribute($value)
-    {
-        return json_encode($value);
-    }
-
     public function getContentAttribute($value)
     {
         return json_decode($value);

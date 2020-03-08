@@ -20,6 +20,7 @@ class ArticleController extends Controller
     {
         $all = $request->all();
         $all['content'] = json_encode($all['content']);
+        $all['tags'] = is_array($all['tags']) ? implode(',', $all['tags']) : $all['tags'];
         $articles->fill($all);
         $articles->user_id = 1;
         $articles->save();
@@ -30,6 +31,7 @@ class ArticleController extends Controller
     {
         $all = $request->all();
         $all['content'] = json_encode($all['content']);
+        $all['tags'] = is_array($all['tags']) ? implode(',', $all['tags']) : $all['tags'];
         $articles = Articles::find($id);
         $articles->update($all);
         return new ArticleResource($articles);

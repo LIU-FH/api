@@ -28,11 +28,6 @@ class Articles extends BaseModel
         return json_decode($value);
     }
 
-    public function setTagsAttribute($value)
-    {
-        return is_array($value) ? implode(',', $value) : $value;
-    }
-
     public function getTagsAttribute($value)
     {
         return $value ? explode(',', $value) : [];

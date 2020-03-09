@@ -15,6 +15,18 @@ class ArticleController extends Controller
         $list = $query->paginate();
         return ArticleResource::collection($list);
     }
+    public function doc()
+    {
+        $list = Articles::where('type', 2)->get();
+        $data = [];
+        foreach ($list as $item) {
+            if (!isset($data[$item->tags[0]])) {
+                $data[$item->tags[0]]['title'] = $item->tags[0];
+            }
+            $data[$item->tags[0]]['children'][] = $item;
+        }
+        return response($data, 200);
+    }
 
     public function store(ArticleRequest $request, Articles $articles)
     {
